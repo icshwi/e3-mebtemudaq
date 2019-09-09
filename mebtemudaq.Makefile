@@ -35,26 +35,27 @@ include $(E3_REQUIRE_CONFIG)/DECOUPLE_FLAGS
 # one should look at other modules makefile to add more
 # In most case, one should ignore the following lines:
 
-#ifneq ($(strip $(ASYN_DEP_VERSION)),)
-#asyn_VERSION=$(ASYN_DEP_VERSION)
-#endif
+ifneq ($(strip $(NDS3_DEP_VERSION)),)
+nds3_VERSION=$(NDS3_DEP_VERSION)
+endif
 
-#ifneq ($(strip $(SEQUENCER_DEP_VERSION)),)
-#sequencer_VERSION=$(SEQUENCER_DEP_VERSION)
-#endif
 
+ifneq ($(strip $(IFCDAQDRV2_DEP_VERSION)),)
+ifcdaqdrv2_VERSION=$(IFCDAQDRV2_DEP_VERSION)
+endif
 
 
 ## Exclude linux-ppc64e6500
 ##EXCLUDE_ARCHS = linux-ppc64e6500
 ##EXCLUDE_ARCHS += linux-corei7-poky
 
-# APP:=calcApp
-# APPDB:=$(APP)/Db
-# APPSRC:=$(APP)/src
+APP:=mebtemudaqApp
+APPDB:=$(APP)/Db
+APPSRC:=$(APP)/src
 
 
-# USR_INCLUDES += -I$(where_am_I)$(APPSRC)
+USR_INCLUDES += -I$(where_am_I)$(APPSRC)
+USR_CXXFLAGS += -std=c++0x
 
 # USR_CFLAGS   += -Wno-unused-variable
 # USR_CFLAGS   += -Wno-unused-function
@@ -66,8 +67,7 @@ include $(E3_REQUIRE_CONFIG)/DECOUPLE_FLAGS
 # TEMPLATES += $(wildcard $(APPDB)/*.db)
 # TEMPLATES += $(wildcard $(APPDB)/*.db)
 # TEMPLATES += $(wildcard $(APPDB)/*.proto)
-# TEMPLATES += $(wildcard $(APPDB)/*.template)
-
+TEMPLATES += $(wildcard $(APPDB)/*.template)
 
 # DBDINC_SRCS += $(APPSRC)/swaitRecord.c
 # DBDINC_SRCS += $(APPSRC)/sseqRecord.c
@@ -84,6 +84,9 @@ include $(E3_REQUIRE_CONFIG)/DECOUPLE_FLAGS
 # HEADERS += $(APPSRC)/aCalcPostfix.h
 # HEADERS += $(DBDINC_HDRS)
 
+SOURCES += $(APPSRC)/mebtemudaq_device.cpp
+SOURCES += $(APPSRC)/mebtemudaq_channelgroup.cpp
+SOURCES += $(APPSRC)/mebtemudaq_channel.cpp
 
 # SOURCES += $(APPSRC)/sCalcPostfix.c
 # SOURCES += $(APPSRC)/sCalcPerform.c
